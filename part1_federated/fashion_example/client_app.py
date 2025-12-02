@@ -1,5 +1,5 @@
-from typing import Dict
-
+from typing import Dict, List
+import numpy as np
 from flwr.client import NumPyClient
 from flwr.clientapp import ClientApp
 from flwr.common import Context
@@ -13,7 +13,6 @@ from fashion_example.task import (
     test_local,
 )
 
-
 class FlowerClient(NumPyClient):
     def __init__(self, model, trainloader, valloader, epochs: int, lr: float):
         self.model = model
@@ -23,23 +22,35 @@ class FlowerClient(NumPyClient):
         self.lr = lr
 
     def fit(self, parameters, config):
-        """Entrenamiento local en el cliente."""
+        """Entrenamiento local con soporte para FedProx."""
+        # 1. Guardamos los parámetros globales antes de entrenar (para FedProx)
+        global_params = parameters
+        
+        # 2. Actualizamos el modelo local con los parámetros globales
         set_model_params(self.model, parameters)
+
+        # 3. Leemos 'mu' de la configuración enviada por el servidor
+        # Si no existe (ej. en FedAvg), usamos 0.0
+        mu = config.get("proximal_mu", 0.0)
 
         n_train = len(self.trainloader.dataset)
         if n_train > 0:
-            train_local(self.model, self.trainloader, epochs=self.epochs, lr=self.lr)
+            train_local(
+                self.model, 
+                self.trainloader, 
+                epochs=self.epochs, 
+                lr=self.lr,
+                mu=float(mu),             # Pasamos mu
+                global_params=global_params # Pasamos los pesos originales
+            )
 
-        # podemos calcular la accuracy de train usando val como proxy sencilla
         _, acc = test_local(self.model, self.trainloader)
         metrics: Dict[str, float] = {"train_accuracy": float(acc)}
 
         return get_model_parameters(self.model), n_train, metrics
 
     def evaluate(self, parameters, config):
-        """Evaluación local en el cliente."""
         set_model_params(self.model, parameters)
-
         n_val = len(self.valloader.dataset)
         if n_val == 0:
             return 0.0, 0, {"test_accuracy": 0.0}
@@ -48,9 +59,7 @@ class FlowerClient(NumPyClient):
         metrics: Dict[str, float] = {"test_accuracy": float(acc)}
         return float(loss), n_val, metrics
 
-
 def client_fn(context: Context):
-    """Construye el cliente con su partición de datos (igual patrón que sklearn_example)."""
     partition_id = int(context.node_config["partition-id"])
     num_partitions = int(context.node_config["num-partitions"])
 
@@ -70,6 +79,5 @@ def client_fn(context: Context):
 
     model = FashionMLP()
     return FlowerClient(model, trainloader, valloader, local_epochs, lr).to_client()
-
 
 app = ClientApp(client_fn=client_fn)

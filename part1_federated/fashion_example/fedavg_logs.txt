@@ -1,0 +1,61 @@
+(venv) sergiovarela@PLX300000002207:/mnt/c/Users/sergio.varelarodrigu/projects/aage_practica2/part1_federated$ flwr run .
+Loading project configuration...
+Success
+INFO :      Starting Flower ServerApp, config: num_rounds=3, no round_timeout
+INFO :
+INFO :      [INIT]
+INFO :      Using initial global parameters provided by strategy
+INFO :      Starting evaluation of initial global parameters
+INFO :      Evaluation returned no results (`None`)
+INFO :
+INFO :      [ROUND 1]
+INFO :      configure_fit: strategy sampled 10 clients (out of 10)
+(ClientAppActor pid=20599) /mnt/c/Users/sergio.varelarodrigu/projects/aage_practica2/part1_federated/fashion_example/task.py:61: DeprecationWarning: __array__ implementation doesn't accept a copy keyword, so passing copy=False failed. __array__ must implement 'dtype' and 'copy' keyword arguments. To learn more, see the migration guide https://numpy.org/devdocs/numpy_2_0_migration_guide.html#adapting-to-changes-in-the-copy-keyword
+(ClientAppActor pid=20599)   all_labels = np.array(train_dataset.targets)
+(ClientAppActor pid=20599)
+(ClientAppActor pid=20599) Gráfico de distribución guardado en: /mnt/c/Users/sergio.varelarodrigu/projects/aage_practica2/part1_federated/fashion_example/histograms/distribucion_clientes.png
+(ClientAppActor pid=20599)
+(ClientAppActor pid=20600)
+(ClientAppActor pid=20600)
+(ClientAppActor pid=20598) /mnt/c/Users/sergio.varelarodrigu/projects/aage_practica2/part1_federated/fashion_example/task.py:61: DeprecationWarning: __array__ implementation doesn't accept a copy keyword, so passing copy=False failed. __array__ must implement 'dtype' and 'copy' keyword arguments. To learn more, see the migration guide https://numpy.org/devdocs/numpy_2_0_migration_guide.html#adapting-to-changes-in-the-copy-keyword [repeated 2x across cluster] (Ray deduplicates logs by default. Set RAY_DEDUP_LOGS=0 to disable log deduplication, or see https://docs.ray.io/en/master/ray-observability/user-guides/configure-logging.html#log-deduplication for more options.)
+(ClientAppActor pid=20598)   all_labels = np.array(train_dataset.targets) [repeated 2x across cluster]
+(ClientAppActor pid=20598)
+(ClientAppActor pid=20598)
+(ClientAppActor pid=20598) Gráfico de distribución guardado en: /mnt/c/Users/sergio.varelarodrigu/projects/aage_practica2/part1_federated/fashion_example/histograms/distribucion_clientes.png [repeated 2x across cluster]
+(ClientAppActor pid=20601) /mnt/c/Users/sergio.varelarodrigu/projects/aage_practica2/part1_federated/fashion_example/task.py:61: DeprecationWarning: __array__ implementation doesn't accept a copy keyword, so passing copy=False failed. __array__ must implement 'dtype' and 'copy' keyword arguments. To learn more, see the migration guide https://numpy.org/devdocs/numpy_2_0_migration_guide.html#adapting-to-changes-in-the-copy-keyword
+(ClientAppActor pid=20601)   all_labels = np.array(train_dataset.targets)
+(ClientAppActor pid=20601)
+(ClientAppActor pid=20601)
+(ClientAppActor pid=20601) Gráfico de distribución guardado en: /mnt/c/Users/sergio.varelarodrigu/projects/aage_practica2/part1_federated/fashion_example/histograms/distribucion_clientes.png
+INFO :      aggregate_fit: received 10 results and 0 failures
+INFO :      configure_evaluate: strategy sampled 10 clients (out of 10)
+INFO :      aggregate_evaluate: received 10 results and 0 failures
+INFO :
+INFO :      [ROUND 2]
+INFO :      configure_fit: strategy sampled 10 clients (out of 10)
+INFO :      aggregate_fit: received 10 results and 0 failures
+INFO :      configure_evaluate: strategy sampled 10 clients (out of 10)
+INFO :      aggregate_evaluate: received 10 results and 0 failures
+INFO :
+INFO :      [ROUND 3]
+INFO :      configure_fit: strategy sampled 10 clients (out of 10)
+INFO :      aggregate_fit: received 10 results and 0 failures
+INFO :      configure_evaluate: strategy sampled 10 clients (out of 10)
+INFO :      aggregate_evaluate: received 10 results and 0 failures
+INFO :
+INFO :      [SUMMARY]
+INFO :      Run finished 3 round(s) in 188.58s
+INFO :          History (loss, distributed):
+INFO :                  round 1: 1.525596573308933
+INFO :                  round 2: 0.9359957805304118
+INFO :                  round 3: 0.8944889931082788
+INFO :          History (metrics, distributed, fit):
+INFO :          {'train_accuracy': [(1, 0.8934747945988637),
+INFO :                              (2, 0.9482877442148911),
+INFO :                              (3, 0.967157971563288)]}
+INFO :          History (metrics, distributed, evaluate):
+INFO :          {'test_accuracy': [(1, 0.5256597571651556),
+INFO :                             (2, 0.7381922649895664),
+INFO :                             (3, 0.6634402287925014)]}
+INFO :
+(venv) sergiovarela@PLX300000002207:/mnt/c/Users/sergio.varelarodrigu/projects/aage_practica2/part1_federated$
